@@ -85,7 +85,10 @@ function createInvoice() {
 const qr = document.getElementById("qrcode");
 qr.innerHTML = "";
 new QRCode(qr, {
-  text: window.location.href,
+text: `ScanPay Invoice
+Customer: ${customer}
+Item: ${item}
+Amount: ${amount.toFixed(2)}`,
   width: 180,
   height: 180
 });
