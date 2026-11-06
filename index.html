@@ -85,7 +85,10 @@ function createInvoice() {
 const qr = document.getElementById("qrcode");
 qr.innerHTML = "";
 new QRCode(qr, {
-text: `ScanPay Invoice
+text: window.location.origin + window.location.pathname +
+"?customer=" + encodeURIComponent(customer) +
+"&item=" + encodeURIComponent(item) +
+"&amount=" + encodeURIComponent(amount.toFixed(2)),
 Customer: ${customer}
 Item: ${item}
 Amount: ${amount.toFixed(2)}`,
@@ -93,6 +96,26 @@ Amount: ${amount.toFixed(2)}`,
   height: 180
 });
   document.getElementById("invoice").style.display = "block";
+}
+const params = new URLSearchParams(window.location.search);
+const customerFromUrl = params.get("customer");
+const itemFromUrl = params.get("item");
+const amountFromUrl = params.get("amount");
+
+if (customerFromUrl && itemFromUrl && amountFromUrl) {
+  document.getElementById("details").textContent =
+    "Customer: " + customerFromUrl +
+    "\nItem: " + itemFromUrl +
+    "\nAmount: " + amountFromUrl;
+
+  document.getElementById("details").style.whiteSpace = "pre-line";
+  document.getElementById("invoice").style.display = "block";
+
+  document.querySelectorAll("input").forEach(input => {
+    input.style.display = "none";
+  });
+
+  document.querySelector("main > button").style.display = "none";
 }
 </script>
 </body>
